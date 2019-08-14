@@ -55,7 +55,7 @@ def all_variant(request):
 
     for variant in variant_list:
         variant_serializer = ProductVariantSerializer(variant)
-        json_array.append(variant_serializer)
+        json_array.append(variant_serializer.data)
 
     json['variant'] = json_array
     return Response(json, status=HTTP_200_OK)
