@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from product.models import Product, ProductVariant
+from .models import Product, ProductVariant
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):
@@ -9,7 +9,13 @@ class ProductVariantSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'size', 'color', 'color_code']
 
     def create(self, validated_data):
-        variant = ProductVariant.objects.create(**validated_data)
+        variant = ProductVariant.objects.create(
+            id=validated_data.id,
+            name=validated_data.name,
+            size=validated_data.size,
+            color=validated_data.color,
+            color_code=validated_data.color_code
+        )
         return variant
 
     def update(self, instance, validated_data):
