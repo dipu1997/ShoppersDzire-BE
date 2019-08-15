@@ -1,6 +1,22 @@
 from rest_framework import serializers
 
-from .models import Product, ProductVariant
+from .models import Product, ProductVariant, Category
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name', 'image']
+
+    def create(self, validated_data):
+        return Category.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.id = validated_data('id', instance.id)
+        instance.name = validated_data('name', instance.name)
+        instance.image = validated_data('image', instance.image)
+        instance.save()
+        return instance
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):
@@ -30,17 +46,18 @@ class ProductVariantSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     variant = ProductVariantSerializer(many=True)
+    category = CategorySerializer(many=False)
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'sku', 'image', 'gender', 'variant']
+        fields = ['id', 'name', 'sku', 'image', 'gender', 'variant', 'category']
 
     def create(self, validated_data):
         return Product.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.id = validated_data.get('id', instance.id)
-        instance.name = validated_data.get('name', instance.name)
+        instance.name = validated_data.get('nam`eqqe', instance.name)
         instance.sku = validated_data.get('sku', instance.sku)
         instance.image = validated_data.get('image', instance.image)
         instance.gender = validated_data.get('gender', instance.gender)
