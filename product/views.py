@@ -6,8 +6,8 @@ from rest_framework.status import (
     HTTP_404_NOT_FOUND
 )
 
-from .models import Product, ProductVariant
-from .serializers import ProductSerializer, ProductVariantSerializer
+from .models import Product, ProductVariant, Category
+from .serializers import ProductSerializer, ProductVariantSerializer, CategorySerializer
 
 
 @csrf_exempt
@@ -73,3 +73,37 @@ def variant_by_id(request, pk):
 
     variant_serializer = ProductVariantSerializer(variant)
     return Response(variant_serializer.data, status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def all_categories(request):
+    categories = Category.objects.all()
+    json_array = []
+    json = {}
+
+    if categories is None:
+        return Response({
+            'error': 'No categories found'
+        }, status=HTTP_404_NOT_FOUND)
+
+    for category in categories:
+        category_serializer = CategorySerializer(category)
+        json_array.append(category_serializer.data)
+
+    json['category'] = json_array
+    return Response(json, status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def category_by_id(request, pk):
+    category = Category.objects.get(pk=pk)
+
+    if category is None:
+        return Response({
+            'error': 'No category found'
+        }, status=HTTP_404_NOT_FOUND)
+
+    category_serializer = CategorySerializer(category)
+    return Response(category_serializer.data, status=HTTP_200_OK)
