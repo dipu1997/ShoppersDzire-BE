@@ -27,6 +27,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'product.apps.ProductConfig',
+    'drf_user',
+    'drfaddons',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -64,8 +67,12 @@ WSGI_APPLICATION = 'ShoppersDzire.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'shoppersdbv1',
+        'USER': 'dipu',
+        'PASSWORD': 'admin@123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
