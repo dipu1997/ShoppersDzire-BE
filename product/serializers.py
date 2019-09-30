@@ -6,7 +6,7 @@ from .models import Product, ProductVariant, Category
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'image']
+        fields = ['id', 'name']
 
     def create(self, validated_data):
         return Category.objects.create(**validated_data)
@@ -22,7 +22,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductVariantSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductVariant
-        fields = ['id', 'name', 'size', 'color', 'color_code']
+        fields = ['id', 'name', 'size', 'color']
 
     def create(self, validated_data):
         variant = ProductVariant.objects.create(
@@ -50,7 +50,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'sku', 'image', 'gender', 'variant', 'category']
+        fields = ['id', 'sku', 'image', 'gender', 'variant', 'category']
 
     def create(self, validated_data):
         return Product.objects.create(**validated_data)
